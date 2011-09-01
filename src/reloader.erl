@@ -60,7 +60,7 @@ handle_cast(_Req, State) ->
 handle_info(doit, State) ->
     Now = stamp(),
     doit(State#state.last, Now),
-    z_utils:flush_message(doit), 
+    flush_message(doit), 
     {noreply, State#state{last = Now}};
 handle_info(_Info, State) ->
     {noreply, State}.
@@ -153,6 +153,14 @@ reload(Module) ->
 
 stamp() ->
     erlang:localtime().
+
+%% @doc Flush all incoming messages, used when receiving timer ticks to prevent multiple ticks.
+flush_message(Msg) ->
+    receive
+        Msg -> flush_message(Msg)
+    after 0 ->
+        ok
+    end.
 
 %%
 %% Tests
