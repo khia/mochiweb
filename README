@@ -13,3 +13,6 @@ To create a new mochiweb using project:
 
 To create a new mochiweb using project in a specific directory:
    make app PROJECT=project_name PREFIX=$HOME/projects/
+
+If you are using erlang packages (modules with names like in Java) use:
+   make package PROJECT=project_name
